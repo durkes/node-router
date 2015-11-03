@@ -1,0 +1,31 @@
+{
+  "name": "node-router",
+  "version": "0.0.0",
+  "description": "A fast, flexible, and lightweight router for Node.js web servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/durkes/node-router.git"
+  },
+  "keywords": [
+    "api",
+    "framework",
+    "http",
+    "json",
+    "middleware",
+    "rest",
+    "restful",
+    "router",
+    "server",
+    "web"
+  ],
+  "author": "github.com/durkes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/durkes/node-router/issues"
+  },
+  "homepage": "https://github.com/durkes/node-router"
+}
