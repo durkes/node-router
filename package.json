@@ -1,7 +1,7 @@
 {
   "name": "node-router",
-  "version": "0.0.0",
-  "description": "A fast, flexible, and lightweight router for Node.js web servers",
+  "version": "0.0.1",
+  "description": "A lightweight, flexible, and lightning-fast router for Node.js web servers",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
