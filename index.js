@@ -1,1 +1,1 @@
-console.log();
+module.exports = require('./lib/router');
