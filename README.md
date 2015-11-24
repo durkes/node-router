@@ -241,7 +241,7 @@ route('/multi/handler', function (req, res, next) {
 }, function (req, res, next) {
 	res.send('Success');
 });
-/*the above route has two handler functions defined in an array*/
+/*the above route has two handler functions (chained)*/
 
 route('GET', '/api/retrieve', function (req, res, next) {
 	if (req.query.id === 'test') {
