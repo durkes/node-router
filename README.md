@@ -165,7 +165,6 @@ node-router includes a `send` method to conveniently handle common response patt
 
 Call `res.send()` __once per request__ from within a route handler.
 ```js
-/*Examples*/
 res.send('Simple text response');
 res.send(404, 'Not Found');
 res.send(500); // No response body; status code only
@@ -208,7 +207,7 @@ route('GET', '/api/retrieve', function (req, res, next) {
 ## A thorough example
 ```js
 var http = require('http');
-var Router = require('../index'); // Replace with require('node-router') in production
+var Router = require('node-router');
 
 var router = Router();
 var route = router.push;
