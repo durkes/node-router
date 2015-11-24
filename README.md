@@ -27,8 +27,8 @@ $ npm install node-router
 var http = require('http');
 var Router = require('node-router');
 
-var router = Router();		// Create a new Router instance
-var route = router.push;	// Shortcut to router.push()
+var router = Router();		// create a new Router instance
+var route = router.push;	// shortcut for router.push()
 
 /*Add routes*/
 route('POST', '/form', routeHandler);	// handle POST requests to /form
