@@ -33,7 +33,7 @@ var route = router.push;	// Shortcut to router.push()
 /*Add routes*/
 route('POST', '/form', routeHandler);	// handle POST requests to /form
 route('/hello', routeHandler);			// handle any request to /hello
-route('PUT', routeHandler);				// handle all PUT requests (to any path)
+route('PUT', routeHandler);				// handle all PUT requests to any path
 
 // handle all GET and POST requests to /one or /two
 route('GET', 'POST', '/one', '/two', routeHandler);

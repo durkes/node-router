@@ -1,5 +1,5 @@
 var http = require('http');
-var Router = require('../index'); // Replace with require('node-router') in production
+var Router = require('../index'); // Use require('node-router') in production
 
 var router = Router();
 var route = router.push;
