@@ -35,7 +35,7 @@ route('POST', '/form', routeHandler);	// handle POST requests to /form
 route('/hello', routeHandler);			// handle any request to /hello
 route('PUT', routeHandler);				// handle all PUT requests to any path
 
-// handle all GET and POST requests to /one or /two
+// handle all GET and POST requests to /one and /two
 route('GET', 'POST', '/one', '/two', routeHandler);
 
 route(routeHandler);					// catch-all route
@@ -145,7 +145,7 @@ In this example, the first route will respond with "Down for maintenance" during
 You should not call `next()` more than once from within a route handler.
 
 ## Request properties
-node-router appends properties to the `req` object, including query string data.
+node-router appends the requested path and query string data to the `req` object.
 
 Consider the following route definition:
 ```js
@@ -374,7 +374,7 @@ In many cases, your app will require functionality beyond node-router's built-in
 node-router is compatible with middleware for [Express](https://www.npmjs.com/package/express), [Restify](https://www.npmjs.com/package/restify), and [Connect](https://www.npmjs.com/package/connect).
 
 ## Fair warning
-When an exception occurs in a Node app, the app typically crashes with the printed stack trace. With node-router, however, if one of your routes throws an exception, the exception will be caught by the nearest error handler, keeping your app from crashing. This is good for obvious reasons, but can also allow misbehaving logic to go undetected or allow your app instance to become unstable.
+When an exception occurs in a typical Node app, the app crashes with the printed stack trace. With node-router, however, if one of your routes throws an exception, the exception will be caught by the nearest error handler, keeping your app from crashing. This is good for obvious reasons, but can also allow your app to operate in an unstable state while obscuring misbehaving logic.
 
 For production environments, it is recommended that you implement custom logic within your error handlers to log the stack trace (err.stack) of unexpected errors, generate a notification, and restart the app.
 
