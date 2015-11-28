@@ -374,7 +374,7 @@ In many cases, your app will require functionality beyond node-router's built-in
 node-router is compatible with middleware for [Express](https://www.npmjs.com/package/express), [Restify](https://www.npmjs.com/package/restify), and [Connect](https://www.npmjs.com/package/connect).
 
 ## Fair warning
-When an exception occurs in a typical Node app, the app crashes with the printed stack trace. With node-router, however, if one of your routes throws an exception, the exception will be caught by the nearest error handler, keeping your app from crashing. This is good for obvious reasons, but can also allow your app to operate in an unstable state while obscuring misbehaving logic.
+When an exception occurs in a typical Node app, the app crashes with the printed stack trace. With node-router, however, if one of your routes throws an exception, the exception will be caught by the nearest error handler, keeping your app from crashing. This is good for obvious reasons, but can obscure misbehaving logic and allow your app to operate in an unstable state.
 
 For production environments, it is recommended that you implement custom logic within your error handlers to log the stack trace (err.stack) of unexpected errors, generate a notification, and restart the app.
 
