@@ -1,8 +1,8 @@
 # node-router - Node.js middleware router
 
-node-router is a lightweight, flexible, and lightning-fast router for Node.js web servers. It provides key conveniences for developing a Node server with the option to add middleware for additional functionality when you need it. Built-in features are limited by design and the configuration is flexible and unopinionated. Much of the baseline code was derived from [Connect](https://www.npmjs.com/package/connect).
+node-router is a lightweight, flexible, and lightning-fast router for Node.js web servers. It provides key conveniences for developing a Node server with the option to add middleware for additional functionality when you need it. Built-in features are limited by design and the configuration is simple and flexible. Much of the baseline code was derived from [Connect](https://www.npmjs.com/package/connect).
 
-In its current form, node-router is most ideal for routing requests and responding with dynamic text or JSON. It is not designed to act as a static file server.
+In its current form, node-router is ideal for routing and responding to requests with dynamic text or JSON. It is not designed to act as a static file server.
 
 ### Table of Contents
  * [How to use node-router](#how-to-use-node-router)
@@ -27,31 +27,31 @@ $ npm install node-router
 var http = require('http');
 var Router = require('node-router');
 
-var router = Router();		// create a new Router instance
-var route = router.push;	// shortcut for router.push()
+var router = Router();    // create a new Router instance
+var route = router.push;  // shortcut for router.push()
 
 /*Add routes*/
-route('POST', '/form', routeHandler);	// handle POST requests to /form
-route('/hello', routeHandler);			// handle any request to /hello
-route('PUT', routeHandler);				// handle all PUT requests to any path
+route('POST', '/form', routeHandler);  // handle POST requests to /form
+route('/hello', routeHandler);         // handle any request to /hello
+route('PUT', routeHandler);            // handle all PUT requests to any path
 
 // handle all GET and POST requests to /one and /two
 route('GET', 'POST', '/one', '/two', routeHandler);
 
-route(routeHandler);					// catch-all route
-route(errorHandler);					// catch errors from any route above
+route(routeHandler);      // catch-all route
+route(errorHandler);      // catch errors from any route above
 
-var server = http.createServer(router).listen(3000);	// launch the server
+var server = http.createServer(router).listen(3000);  // launch the server
 
 
 /*Example handler functions*/
 function routeHandler(req, res, next) {
-	if (true) res.send('Hello!');		// respond to request if condition true
-	else next();						// otherwise, call next matching route
+  if (true) res.send('Hello!');  // respond to request if condition true
+  else next();                   // otherwise, call next matching route
 }
 
 function errorHandler(err, req, res, next) {
-	res.send(err);						// responded, so do not call next()
+  res.send(err);                 // responded, so do not call next()
 }
 ```
 
@@ -60,12 +60,12 @@ Routing in node-router works by matching the requested URL path and HTTP method.
 ```js
 route(METHOD, PATH, HANDLER);
 ```
-Every route **must** contain a route handler function, but method and path are optional.
+Every route definition **must** contain a route handler function, but method and path are optional.
  - If no method is defined, or the method is defined as `'*'`, the route will match any method
  - If no path is defined, or the path is defined as `'/'`, the route will match any path
- - Routes may contain multiple methods, paths, and handlers for convenience
+ - Route definitions may contain multiple methods, paths, and handlers
 
-Method and path matching are **case insensitive**, and paths only need to match the prefix as long as the breakpoint character is a `/` or `.`. Furthermore, a trailing slash (`/`) in the route definition path has no effect.
+Method and path matching are **case insensitive**, and paths only need to match the prefix as long as the breakpoint character is a slash (`/`) or period (`.`). Furthermore, a trailing slash (`/`) in the route definition path has no effect.
 
 #### Example
 Consider the following route definitions (they are functionally identical):
@@ -127,17 +127,16 @@ Within your route handler functions, you must respond to requests using `res.sen
 Consider the following two catch-all routes:
 ```js
 route(function (req, res, next) {
-	var hour = new Date().getHours();
-	if (hour === 0) {
-		res.send('Down for maintenance');
-	}
-	else {
-		next();
-	}
+  var hour = new Date().getHours();
+  if (hour === 0) {
+    res.send('Down for maintenance');
+  } else {
+    next();
+  }
 });
 
 route(function (req, res, next) {
-	res.send('Hello!');
+  res.send('Hello!');
 });
 ```
 In this example, the first route will respond with "Down for maintenance" during the midnight hour. During other hours it will resolve to `next()` and invoke the second route to respond with "Hello!"
@@ -154,9 +153,9 @@ route('/api', routeHandler);
 For requests to `http://www.example.com/API/retrieve?name=John%20Doe&state=MO`, the `req` object will contain the following properties and values:
 ```js
 function routeHandler(req, res, next) {
-	req.path === '/API/retrieve'	// matches the current URL path
-	req.query.name === 'John Doe'
-	req.query.state === 'MO'
+  req.path === '/API/retrieve'  // matches the current URL path
+  req.query.name === 'John Doe'
+  req.query.state === 'MO'
 }
 ```
 
@@ -167,7 +166,7 @@ Call `res.send()` __once per request__ from within a route handler.
 ```js
 res.send('Simple text response');
 res.send(404, 'Not Found');
-res.send(500); // No response body; status code only
+res.send(500);  // No response body; status code only
 
 var json = {version: '1.0', code: 200, message: 'Success'};
 res.send(json);
@@ -182,7 +181,7 @@ Error handlers are declared in the same way as a route handler, but with an addi
 ```js
 route(errorHandler);
 function errorHandler(err, req, res, next) {
-	res.send(err);
+  res.send(err);
 }
 ```
 You should include at least one error handler (usually the very last route definition), but you can include multiple error handlers if you need errors to be handled differently throughout the route chain. When an error is thrown or passed to `next`, the next error handler in the chain will be invoked.
@@ -191,15 +190,14 @@ You should include at least one error handler (usually the very last route defin
 Inside a typical route, you can invoke the next error handler in the chain by calling `next(error)` or simply throwing an error.
 ```js
 route('GET', '/api/retrieve', function (req, res, next) {
-	if (req.query.id === 'test') {
-		/*respond only to /api/retrieve?id=test*/
-		res.send({id: 'test', result: 'success'});
-	}
-	else {
-		/*otherwise, pass an error*/
-		var error = new Error('Invalid request');
-		next(error);
-	}
+  if (req.query.id === 'test') {
+    /*respond only to /api/retrieve?id=test*/
+    res.send({id: 'test', result: 'success'});
+  } else {
+    /*otherwise, pass an error*/
+    var error = new Error('Invalid request');
+    next(error);
+  }
 });
 ```
 
@@ -222,142 +220,141 @@ route('POST', bodyParser.urlencoded({extended: false}));
 
 /*Custom middleware*/
 route(function (req, res, next) {
-	console.log('----------------------------------------');
-	console.log('req.path: ' + req.path);
-	console.log('req.query: ' + JSON.stringify(req.query));
-	next();
+  console.log('----------------------------------------');
+  console.log('req.path: ' + req.path);
+  console.log('req.query: ' + JSON.stringify(req.query));
+  next();
 });
 
 /*Add custom routes*/
 route('/hello', function (req, res, next) {
-	res.send('Hi there!');
+  res.send('Hi there!');
 });
 /*the above route will answer all requests to:
 '/hello', '/hello.anything...', and '/hello/anything...'*/
 
 route('/multi/handler', function (req, res, next) {
-	console.log('First handler');
-	next();
+  console.log('First handler');
+  next();
 }, function (req, res, next) {
-	res.send('Success');
+  res.send('Success');
 });
 /*the above route has two handler functions (chained)*/
 
 route('GET', '/api/retrieve', function (req, res, next) {
-	if (req.query.id === 'test') {
-		/*respond only to /api/retrieve?id=test*/
-		res.send({id: 'test', result: 'success'});
-	}
-	else {
-		/*otherwise, continue to the next route*/
-		next();
-	}
+  if (req.query.id === 'test') {
+    /*respond only to /api/retrieve?id=test*/
+    res.send({id: 'test', result: 'success'});
+  } else {
+    /*otherwise, continue to the next route*/
+    next();
+  }
 });
 
 route('GET', '/api/retrieve', function (req, res, next) {
-	res.send(400, 'You must call this URL with the query string ?id=test');
-	/*efficient coding would include this logic in the route above;
-	this is just for demo*/
-	/*notice next() was not called here in order to break the chain*/
+  res.send(400, 'You must call this URL with the query string ?id=test');
+  /*efficient coding would include this logic in the route above;
+  this is just for demo*/
+  /*notice next() was not called here in order to break the chain*/
 });
 
 route('/api/retrieve', function (req, res, next) {
-	/*now catch all requests to '/api/retrieve' with methods other than GET
-	(since GET requests would have been handled by one of the routes above)*/
-	res.send(405, 'Must use GET method');
+  /*now catch all requests to '/api/retrieve' with methods other than GET
+  (since GET requests would have been handled by one of the routes above)*/
+  res.send(405, 'Must use GET method');
 });
 
 route('/cause/an/error', function (req, res, next) {
-	next(new Error('This is an error message.'));
+  next(new Error('This is an error message.'));
 });
 
 route('/error/multi/handler', function (req, res, next) {
-	console.log('First handler');
-	next(new Error('Skip to the error handler.'));
+  console.log('First handler');
+  next(new Error('Skip to the error handler.'));
 }, function (req, res, next) {
-	res.send('This response will never occur.');
+  res.send('This response will never occur.');
 });
 
 route(function (err, req, res, next) {
-	/*catch errors from any route above*/
-	/*notice the extra 'err' parameter in the function declaration*/
-	res.send(err);
+  /*catch errors from any route above*/
+  /*notice the extra 'err' parameter in the function declaration*/
+  res.send(err);
 });
 
 route('POST', function (req, res, next) {
-	/*catch all POST-method requests*/
-	var error = new Error('Method Not Allowed');
-	error.status = 405;
-	next(error);
+  /*catch all POST-method requests*/
+  var error = new Error('Method Not Allowed');
+  error.status = 405;
+  next(error);
 });
 
 route('/send/text', function (req, res, next) {
-	res.send('Hello');
+  res.send('Hello');
 });
 
 route('/send/json', function (req, res, next) {
-	res.send({status: 200, response: 'OK'});
+  res.send({status: 200, response: 'OK'});
 });
 
 route('/send/array', function (req, res, next) {
-	res.send([5, 4, 3, 2, 1, 'a', 'b', 'c']);
+  res.send([5, 4, 3, 2, 1, 'a', 'b', 'c']);
 });
 
 route('/send/status', function (req, res, next) {
-	res.send(201);
+  res.send(201);
 });
 
 route('/send/status+text', function (req, res, next) {
-	res.send(201, 'Created');
+  res.send(201, 'Created');
 });
 
 route('/send/status+json', function (req, res, next) {
-	res.send(201, {response: 'Created'});
+  res.send(201, {response: 'Created'});
 });
 
 route('/send/error', function (req, res, next) {
-	var error = new Error('Test Error');
-	error.status = 555;
-	res.send(error);
-	/*same as res.send(555, 'Error: Test Error');*/
+  var error = new Error('Test Error');
+  error.status = 555;
+  res.send(error);
+  /*same as res.send(555, 'Error: Test Error');*/
 });
 
 route('/send/error2', function (req, res, next) {
-	var error = new Error('Test Error');
-	error.name = 'Not Allowed';
-	error.status = 555;
+  var error = new Error('Test Error');
+  error.name = 'Not Allowed';
+  error.status = 555;
 
-	/*override error status code*/
-	res.send(500, error);
-	/*same as res.send(500, 'Not Allowed: Test Error');*/
+  /*override error status code*/
+  res.send(500, error);
+  /*same as res.send(500, 'Not Allowed: Test Error');*/
 });
 
 route('/send/error3', function (req, res, next) {
-	var error = new Error('Test Error');
-	error.status = 555;
+  var error = new Error('Test Error');
+  error.status = 555;
 
-	/*remember that send(error) will NOT invoke the next error handler*/
-	/*but next(error) will*/
-	next(error);
+  /*remember that send(error) will NOT invoke the next error handler*/
+  /*but next(error) will*/
+  next(error);
 });
 
 route(function (req, res, next) {
-	/*catch all requests that made it this far*/
-	res.send(404, 'Custom Not Found');
+  /*catch all requests that made it this far*/
+  res.send(404, 'Custom Not Found');
 });
 
 route('*', '/', function (req, res, next) {
-	/*this more verbose route definition is functionally identical to the one
-	above; for demo purposes only*/
-	res.statusCode = 404;
-	res.end('Custom Not Found');
+  /*this more verbose route definition is functionally identical to the one
+  above; for demo purposes only*/
+  res.statusCode = 404;
+  res.end('Custom Not Found');
 });
 
 route(function (err, req, res, next) {
-	/*catch errors from routes below the last error handler*/
-	/*it is smart to log unexpected exceptions*/
-	console.error(err);
-	res.send(err);
+  /*catch errors from routes below the last error handler*/
+  /*it is smart to log unexpected exceptions*/
+  console.error(err);
+  res.send(err);
 });
 
 /*launch the server*/
