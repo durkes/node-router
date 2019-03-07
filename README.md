@@ -12,7 +12,6 @@ In its current form, node-router is ideal for routing and responding to requests
  * [Error handling](#error-handling)
  * [A thorough example](#a-thorough-example)
  * [Middleware](#middleware)
- * [Fair warning](#fair-warning)
  * [How node-router is different](#how-node-router-is-different)
 
 ## How to use node-router
@@ -201,6 +200,10 @@ route('GET', '/api/retrieve', function (req, res, next) {
 });
 ```
 
+#### Fair warning
+When an exception occurs in a typical Node app, the app crashes with the printed stack trace. With node-router, however, if one of your routes throws an exception, the exception will be caught by the nearest error handler, keeping your app from crashing. This is good for obvious reasons, but can obscure misbehaving logic and allow your app to operate in an unstable state.
+
+For production environments, it is recommended that you implement custom logic within your error handlers to log the stack trace (err.stack) of unexpected errors, generate a notification, and restart the app.
 
 ## A thorough example
 ```js
@@ -237,6 +240,7 @@ route('/multi/handler', function (req, res, next) {
   console.log('First handler');
   next();
 }, function (req, res, next) {
+  console.log('Second handler');
   res.send('Success');
 });
 /*the above route has two handler functions (chained)*/
@@ -361,19 +365,16 @@ route(function (err, req, res, next) {
 var server = http.createServer(router).listen(3000);
 ```
 
+[More examples](examples)
+
 ## Middleware
 In many cases, your app will require functionality beyond node-router's built-in capabilities. Middleware can be used to add functionality such as the ability to parse incoming POST data and cookies.
 
-#### Recommended middleware
+#### Common middleware
  - [body-parser](https://www.npmjs.com/package/body-parser)
  - [cookie-parser](https://www.npmjs.com/package/cookie-parser)
 
 node-router is compatible with middleware for [Express](https://www.npmjs.com/package/express), [Restify](https://www.npmjs.com/package/restify), and [Connect](https://www.npmjs.com/package/connect).
-
-## Fair warning
-When an exception occurs in a typical Node app, the app crashes with the printed stack trace. With node-router, however, if one of your routes throws an exception, the exception will be caught by the nearest error handler, keeping your app from crashing. This is good for obvious reasons, but can obscure misbehaving logic and allow your app to operate in an unstable state.
-
-For production environments, it is recommended that you implement custom logic within your error handlers to log the stack trace (err.stack) of unexpected errors, generate a notification, and restart the app.
 
 ## How node-router is different
  - [Express](https://www.npmjs.com/package/express) includes support for serving static files and rendering view templates
