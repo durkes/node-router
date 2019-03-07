@@ -31,6 +31,7 @@ route('/multi/handler', function (req, res, next) {
   console.log('First handler');
   next();
 }, function (req, res, next) {
+  console.log('Second handler');
   res.send('Success');
 });
 /*the above route has two handler functions (chained)*/
