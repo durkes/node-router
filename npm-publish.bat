@@ -1,5 +1,3 @@
-@echo off
-
 call npm publish ./
 echo.
 
