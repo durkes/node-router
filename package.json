@@ -1,6 +1,6 @@
 {
   "name": "node-router",
-  "version": "0.1.6",
+  "version": "1.0.0",
   "description": "A lightweight, flexible, and lightning-fast router for Node.js web servers",
   "main": "index.js",
   "scripts": {
