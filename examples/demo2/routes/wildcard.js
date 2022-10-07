@@ -1,7 +1,7 @@
 module.exports = function (req, res, next) {
-  var date = new Date();
-  var ts = date.getTime();
+  const date = new Date();
+  const ts = date.getTime();
 
   /*send json timestamp*/
-  res.send({ts: ts});
+  res.send({ ts: ts });
 };

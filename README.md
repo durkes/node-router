@@ -23,11 +23,11 @@ $ npm install node-router
 
 #### Setting up your server
 ```js
-var http = require('http');
-var Router = require('node-router');
+const http = require('http');
+const Router = require('node-router');
 
-var router = Router();    // create a new Router instance
-var route = router.push;  // shortcut for router.push()
+const router = Router();    // create a new Router instance
+const route = router.push;  // shortcut for router.push()
 
 /*Add routes*/
 route('POST', '/form', routeHandler);  // handle POST requests to /form
@@ -40,7 +40,7 @@ route('GET', 'POST', '/one', '/two', routeHandler);
 route(routeHandler);      // catch-all route
 route(errorHandler);      // catch errors from any route above
 
-var server = http.createServer(router).listen(3000);  // launch the server
+const server = http.createServer(router).listen(3000);  // launch the server
 
 
 /*Example handler functions*/
@@ -126,7 +126,7 @@ Within your route handler functions, you must respond to requests using `res.sen
 Consider the following two catch-all routes:
 ```js
 route(function (req, res, next) {
-  var hour = new Date().getHours();
+  const hour = new Date().getHours();
   if (hour === 0) {
     res.send('Down for maintenance');
   } else {
@@ -167,10 +167,10 @@ res.send('Simple text response');
 res.send(404, 'Not Found');
 res.send(500);  // No response body; status code only
 
-var json = {version: '1.0', code: 200, message: 'Success'};
+const json = {version: '1.0', code: 200, message: 'Success'};
 res.send(json);
 
-var error = new Error('Not Allowed');
+const error = new Error('Not Allowed');
 error.status = 405;
 res.send(error);
 ```
@@ -194,7 +194,7 @@ route('GET', '/api/retrieve', function (req, res, next) {
     res.send({id: 'test', result: 'success'});
   } else {
     /*otherwise, pass an error*/
-    var error = new Error('Invalid request');
+    const error = new Error('Invalid request');
     next(error);
   }
 });
@@ -207,17 +207,17 @@ For production environments, it is recommended that you implement custom logic w
 
 ## A thorough example
 ```js
-var http = require('http');
-var Router = require('node-router');
+const http = require('http');
+const Router = require('node-router');
 
-var router = Router();
-var route = router.push;
+const router = Router();
+const route = router.push;
 
 /*Add middleware (optional)*/
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 route(cookieParser());
 
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 route('POST', bodyParser.urlencoded({extended: false}));
 /*only use bodyParser on POST requests*/
 
@@ -287,7 +287,7 @@ route(function (err, req, res, next) {
 
 route('POST', function (req, res, next) {
   /*catch all POST-method requests*/
-  var error = new Error('Method Not Allowed');
+  const error = new Error('Method Not Allowed');
   error.status = 405;
   next(error);
 });
@@ -317,14 +317,14 @@ route('/send/status+json', function (req, res, next) {
 });
 
 route('/send/error', function (req, res, next) {
-  var error = new Error('Test Error');
+  const error = new Error('Test Error');
   error.status = 555;
   res.send(error);
   /*same as res.send(555, 'Error: Test Error');*/
 });
 
 route('/send/error2', function (req, res, next) {
-  var error = new Error('Test Error');
+  const error = new Error('Test Error');
   error.name = 'Not Allowed';
   error.status = 555;
 
@@ -334,7 +334,7 @@ route('/send/error2', function (req, res, next) {
 });
 
 route('/send/error3', function (req, res, next) {
-  var error = new Error('Test Error');
+  const error = new Error('Test Error');
   error.status = 555;
 
   /*remember that send(error) will NOT invoke the next error handler*/
@@ -362,7 +362,7 @@ route(function (err, req, res, next) {
 });
 
 /*launch the server*/
-var server = http.createServer(router).listen(3000);
+const server = http.createServer(router).listen(3000);
 ```
 
 [More examples](examples)

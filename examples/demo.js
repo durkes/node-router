@@ -1,14 +1,14 @@
-var http = require('http');
-var Router = require('../index'); // Use require('node-router') in production
+const http = require('http');
+const Router = require('../index'); // Use require('node-router') in production
 
-var router = Router();
-var route = router.push;
+const router = Router();
+const route = router.push;
 
 /*Add middleware (optional)*/
-// var cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 // route(cookieParser());
 
-// var bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 // route('POST', bodyParser.urlencoded({extended: false}));
 /*only use bodyParser on POST requests*/
 
@@ -39,7 +39,7 @@ route('/multi/handler', function (req, res, next) {
 route('GET', '/api/retrieve', function (req, res, next) {
   if (req.query.id === 'test') {
     /*respond only to /api/retrieve?id=test*/
-    res.send({id: 'test', result: 'success'});
+    res.send({ id: 'test', result: 'success' });
   } else {
     /*otherwise, continue to the next route*/
     next();
@@ -78,7 +78,7 @@ route(function (err, req, res, next) {
 
 route('POST', function (req, res, next) {
   /*catch all POST-method requests*/
-  var error = new Error('Method Not Allowed');
+  const error = new Error('Method Not Allowed');
   error.status = 405;
   next(error);
 });
@@ -88,7 +88,7 @@ route('/send/text', function (req, res, next) {
 });
 
 route('/send/json', function (req, res, next) {
-  res.send({status: 200, response: 'OK'});
+  res.send({ status: 200, response: 'OK' });
 });
 
 route('/send/array', function (req, res, next) {
@@ -104,18 +104,18 @@ route('/send/status+text', function (req, res, next) {
 });
 
 route('/send/status+json', function (req, res, next) {
-  res.send(201, {response: 'Created'});
+  res.send(201, { response: 'Created' });
 });
 
 route('/send/error', function (req, res, next) {
-  var error = new Error('Test Error');
+  const error = new Error('Test Error');
   error.status = 555;
   res.send(error);
   /*same as res.send(555, 'Error: Test Error');*/
 });
 
 route('/send/error2', function (req, res, next) {
-  var error = new Error('Test Error');
+  const error = new Error('Test Error');
   error.name = 'Not Allowed';
   error.status = 555;
 
@@ -125,7 +125,7 @@ route('/send/error2', function (req, res, next) {
 });
 
 route('/send/error3', function (req, res, next) {
-  var error = new Error('Test Error');
+  const error = new Error('Test Error');
   error.status = 555;
 
   /*remember that send(error) will NOT invoke the next error handler*/
@@ -153,4 +153,4 @@ route(function (err, req, res, next) {
 });
 
 /*launch the server*/
-var server = http.createServer(router).listen(3000);
+const server = http.createServer(router).listen(3000);

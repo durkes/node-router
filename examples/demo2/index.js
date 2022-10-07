@@ -1,10 +1,10 @@
 /*This demo separates each route into its own module for better organization.*/
 
-var http = require('http');
-var Router = require('../../index'); // Use require('node-router') in production
+const http = require('http');
+const Router = require('../../index'); // Use require('node-router') in production
 
-var router = Router();
-var route = router.push;
+const router = Router();
+const route = router.push;
 
 /*Custom middleware*/
 route(require('./routes/log'));
@@ -29,4 +29,4 @@ route(require('./routes/wildcard'));
 route(require('./routes/error'));
 
 /*launch the server*/
-var server = http.createServer(router).listen(3000);
+const server = http.createServer(router).listen(3000);
