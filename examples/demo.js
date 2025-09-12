@@ -153,4 +153,38 @@ route(function (err, req, res, next) {
 });
 
 /*launch the server*/
-const server = http.createServer(router).listen(3000);
+const server = http.createServer(router).listen(3000, () => {
+  console.log('\n🚀 Server running on http://localhost:3000');
+  console.log('\n📋 Example routes to test:');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  const routes = [
+    { path: '/hello', description: 'Simple hello route' },
+    { path: '/multi/handler', description: 'Route with multiple handlers (chained)' },
+    { path: '/api/retrieve?id=test', description: 'API route with query parameter (GET only)' },
+    { path: '/api/retrieve', description: 'API route without query param (returns error)' },
+    { path: '/cause/an/error', description: 'Route that throws an error' },
+    { path: '/error/multi/handler', description: 'Route with error in chained handlers' },
+    { path: '/send/text', description: 'Send plain text response' },
+    { path: '/send/json', description: 'Send JSON response' },
+    { path: '/send/array', description: 'Send array response' },
+    { path: '/send/status', description: 'Send status code only' },
+    { path: '/send/status+text', description: 'Send status code with text' },
+    { path: '/send/status+json', description: 'Send status code with JSON' },
+    { path: '/send/error', description: 'Send error response' },
+    { path: '/send/error2', description: 'Send error with custom name' },
+    { path: '/send/error3', description: 'Send error via next()' },
+    { path: '/nonexistent', description: 'Test 404 handling' }
+  ];
+
+  routes.forEach(route => {
+    const url = `http://localhost:3000${route.path}`;
+    console.log(`🔗 ${url.padEnd(50)} - ${route.description}`);
+  });
+
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('\n💡 Tips:');
+  console.log('   • Visit any link above to test the route in your browser');
+  console.log('   • Try a POST request to /api/retrieve to see method not allowed');
+  console.log('   • Error routes will demonstrate error handling\n');
+});
