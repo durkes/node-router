@@ -148,6 +148,7 @@ route('*', '/', function (req, res, next) {
 route(function (err, req, res, next) {
   /*catch errors from routes below the last error handler*/
   /*it is smart to log unexpected exceptions*/
+  console.warn("👇 \x1b[93mThis error is intentional for demonstration purposes. It is not a bug.\x1b[0m");
   console.error(err);
   res.send(err);
 });
