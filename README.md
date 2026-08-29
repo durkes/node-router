@@ -140,7 +140,7 @@ route(function (req, res, next) {
 ```
 In this example, the first route will respond with "Down for maintenance" during the midnight hour. During other hours it will resolve to `next()` and invoke the second route to respond with "Hello!"
 
-You should not call `next()` more than once from within a route handler.
+You should not call `next()` more than once from within a route handler, and you should not call it after the response has been sent. node-router does not guard against this: a handler below would write to a closed socket and take down the server. See [examples/demo3.js](examples/demo3.js) for the mistake and a middleware guard that contains it.
 
 ## Request properties
 node-router appends the requested path and query string data to the `req` object.
